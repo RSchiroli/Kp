@@ -2,7 +2,7 @@
 
 Code for automated computation of partition coefficient in coacervates and analysis.
 
----------------------------------------------- GENERAL -----------------------------------------------
+# GENERAL
 
 Julia 1.8.5 or later version is needed to run the code.
 The code can be ran via Jupyter Notebook, however it's not suggested to do that since the large amount of RAM required.
@@ -14,7 +14,7 @@ General comment on acquisition process and data needed for the analysis:
  -  nPlane>1 leads in some cases to errors, it is suggested to work with only one plane, it means that the intensities of dilute and dense phase will be extracted for any plane but the labelling of single droplets and Kp computed only in the maximum intensity one.
  -  a mask is required to run the analysis. To acquire the mask Fiji's plugin LabKit is needed. Alternatively the code could be modified to deal with manual intensity threshold (see below).
 
------------------------------------------- MASK ACQUISITION ------------------------------------------
+# MASK ACQUISITION
 
 To construct the mask for the image open Fiji, then from the menu plugin->LabKit->open image with LabKit. It's important to train the classifier with the right order in the label sequence, since it determines the values of pixels in that class.
 - label 1 (background) = dilute phase
@@ -22,9 +22,9 @@ To construct the mask for the image open Fiji, then from the menu plugin->LabKit
 - label 3 = blur
 Then Segmentation->train classifier, Segmentation->Save segmentation results as TIF. Segmentation->Save classifier if you want to export the classifier. You can then apply it to other images with similar features without performing the training. To apply it you just need to open a new image in LabKit, then Segmentation->open classifier.
 
---------------------------------------------- COMPUTE KP ---------------------------------------------
+# COMPUTE KP
 
-# Function _RunKpAnalysis(imgName,maskName;Gain::Int64=100,threshold::Int64=0,nPlane::Int64=0,returnAll::Bool=false)_ from Kp.jl
+Function _RunKpAnalysis(imgName,maskName;Gain::Int64=100,threshold::Int64=0,nPlane::Int64=0,returnAll::Bool=false)_ from Kp.jl
 
   -  imgName::String = "full_path_to_your_image_in_string_format/image_name.tif"
   -  maskName::String = "full_path_to_your_mask_in_string_format/mask_name.tif"
@@ -37,16 +37,16 @@ optional parameters (they are called with VarName=VarValue):
 
 If the code is called with imgName = "path/name.tif", results will be saved in "path/name.csv".
 
----------------------------------------------- ANALYSIS ----------------------------------------------
+# ANALYSIS
 
-# function _BlockStats(CSVpathName)_ from BockStats.jl
+function _BlockStats(CSVpathName)_ from BockStats.jl
 
 Function to extract Kp from a single ZStack. Blocks are constructed dividing droplets by size. It takes as an input the full path to CSV file produced by _RunKpAnalysis_ and returns two arrays "results, stats" where:
 results = avgKpBlock, StdKpBlock, AvgSizeBlock, StdSizeBlock
 stats = intensityDilutePhaseInThePlane, NumberOfDropletsInThePlane, NumberOfPixels in the dilute phase
 
 
-# function _MultipleImagesBlockStats(CSVpathName,Title)_ from BockStats.jl
+function _MultipleImagesBlockStats(CSVpathName,Title)_ from BockStats.jl
 
 Function to extract Kp from multiple ZStack (of the same system). Blocks are constructed building an array with all the droplets from different ZStacks and dividing them by size. It takes as an input the full path to CSV file produced by _RunKpAnalysis_ and title should be used in saved plots. It returns AvgKpBlocks, StdKpBlocks, AvgSizeBlocks, StdSizeBlocks containing statistics for any block. In addition it creat a folder "path/Title" where "path" is the path to the first CSV passed as an argument and save in it the following list of plots (y vs x):
   - avgKp vs avgSize in the block;
@@ -57,12 +57,12 @@ Function to extract Kp from multiple ZStack (of the same system). Blocks are con
   - dilute intensity vs avgKp.
 
 
-# function _MultipleImagesStats(CSVpathName,Title)_ from BockStats.jl
+function _MultipleImagesStats(CSVpathName,Title)_ from BockStats.jl
 
 Function to extract Kp from a single ZStack. Blocks are constructed creating an array with all the droplets in different ZStacks and dividing them by size. It takes as an input the full path to CSV file produced by _RunKpAnalysis_ and saves results in a CSV file located in the path to the first file passed as an argument.
 In any line of the file the are AvgKp, StdKp, AvgSize, StdSize of any image analysed, a line of 0.0 and then results averaged over all the images.
 
------------------------------------- MANUAL INTENSITIES THRESHOLD ------------------------------------
+# MANUAL INTENSITIES THRESHOLD
 
 To use manual threshold on the intensity the easiest way is to pass as an argument of _RunKpAnalysis_ the path ro raw data both for imgName and maskName.
 Then it is sufficient to modify the function _Segment!_ from ComputeIntensity.jl to classify dilute, dense and blur pixels based on the manualt threshold. A better version can be implemented avoiding call twice the same image.
