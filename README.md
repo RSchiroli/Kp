@@ -20,6 +20,7 @@ To construct the mask for the image open Fiji, then from the menu plugin->LabKit
 - label 1 (background) = dilute phase
 - label 2 (forecast) = dense phase
 - label 3 = blur
+  
 Then Segmentation->train classifier, Segmentation->Save segmentation results as TIF. Segmentation->Save classifier if you want to export the classifier. You can then apply it to other images with similar features without performing the training. To apply it you just need to open a new image in LabKit, then Segmentation->open classifier.
 
 # COMPUTE KP
