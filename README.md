@@ -27,7 +27,7 @@ Then Segmentation->train classifier, Segmentation->Save segmentation results as 
 Before start you need to include the code. Open the terminal in the code directory. Then open julia from the terminal and include the files:
 
 - include("Kp.jl") is always fine.
-- include("BockStats.jl") if only the analysis ins needed.
+- include("BockStats.jl") if only the analysis is needed.
 
 Function _RunKpAnalysis(imgName,maskName;Gain::Int64=100,threshold::Int64=0,nPlane::Int64=0,returnAll::Bool=false)_ from Kp.jl
 
