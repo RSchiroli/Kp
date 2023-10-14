@@ -65,10 +65,9 @@ Function to extract Kp from multiple ZStack (of the same system). Blocks are con
 
 function _MultipleImagesStats(CSVpathName,Title)_ from BockStats.jl
 
-Function to extract Kp from a single ZStack. Blocks are constructed creating an array with all the droplets in different ZStacks and dividing them by size. It takes as an input the full path to CSV file produced by _RunKpAnalysis_ and saves results in a CSV file located in the path to the first file passed as an argument.
-In any line of the file the are AvgKp, StdKp, AvgSize, StdSize of any image analysed, a line of 0.0 and then results averaged over all the images.
+Function to extract Kp from a single ZStack.  It takes as an input the full path to CSV file produced by _RunKpAnalysis_ and saves results in a CSV file located in the path to the first file passed as an argument. In any line of the file the are AvgKp, StdKp, AvgSize, StdSize of any image analysed, a line of 0.0 and then results averaged over all the images.
 
 # MANUAL INTENSITY THRESHOLD
 
 To use manual threshold on the intensity the easiest way is to pass as an argument of _RunKpAnalysis_ the path ro raw data both for imgName and maskName.
-Then it is sufficient to modify the function _Segment!_ from ComputeIntensity.jl to classify dilute, dense and blur pixels based on the manualt threshold. A better version can be implemented avoiding call twice the same image.
+Then it is sufficient to modify the function _Segment!_ from ComputeIntensity.jl to classify dilute, dense and blur pixels based on the manual threshold choosen. A better version can be implemented avoiding call twice the same image.
